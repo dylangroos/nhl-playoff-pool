@@ -23,10 +23,6 @@ def get(RANGE):
     return result.get('values', [])
 
 
-def set(RANGE):
-    pass
-
-
 def get_players():
     return  [name[0].split('(')[0].split(' ')[1].strip() for name in get(FORWARD_RANGES['names'])] + \
     [name[0].split('(')[0].split(' ')[1].strip() for name in get(DEFENSE_RANGES['names'])] + \

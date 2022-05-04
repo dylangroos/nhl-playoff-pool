@@ -1,6 +1,6 @@
-from api import get_box_scores
+from api import get_scores
 from gsheet import get_players
-from .stats import win, loss, shutout, fight, ot_goal
+from .stats import win, loss, fight, ot_goal
 
 def generate_updates(baseline, active):
     # update is a dictionary with row_index then the values -- this is taken in by the gsheet stuff
@@ -26,15 +26,29 @@ def generate_updates(baseline, active):
                         active[player['name']]['ot_goal'] + int(player['ot_goal']),
                         active[player['name']]['fights'] + int(player['fights'])
                     ]
+                    base = [
+                        int(player['goals']),
+                        int(player['assists']),
+                        int(player['plus_minus']),
+                        int(player['ot_goal']),
+                        int(player['fights'])
+                    ]
                 elif player_type == 'goalies':
                     update = [
-                        active[player['name']]['wins'],
-                        active[player['name']]['losses'],
-                        active[player['name']]['shutouts'],
+                        active[player['name']]['wins'] + int(player['wins']),
+                        active[player['name']]['losses'] + int(player['losses']),
+                        active[player['name']]['shutouts'] + int(player['shutouts']),
                         active[player['name']]['saves'] + int(player['saves']),
                         active[player['name']]['goals_against'] + int(player['goals_against'])
                     ]
-                if any(update):
+                    base = [
+                        int(player['wins']),
+                        int(player['losses']),
+                        int(player['shutouts']),
+                        int(player['saves']),
+                        int(player['goals_against'])
+                    ]
+                if any([a_i - b_i for a_i, b_i in zip(update, base)]):
 
                     if player_type == 'forwards':
                         print(f'        G|A|+-|OT|F')
@@ -52,14 +66,17 @@ def generate_updates(baseline, active):
 
 def get_active_stats():
     # returns dict with keys as last name
-    return _preprocess_box_scores(get_box_scores())
+    return _preprocess_box_scores(get_scores())
 
 
-def _preprocess_box_scores(box_scores):
+def _preprocess_box_scores(scores):
     out = {}
     active_players = get_players()
-    # TODO: the ones that are ended are post game stats (how do we get post game stats?)
-    for box_score in box_scores:
+    box_scores = scores['box']
+    line_scores = scores['line']
+    # iterate through active box scores
+    for i, box_score in enumerate(box_scores):
+        is_over = _ended(line_scores[i])  # is the game over?
         for team_id in box_score["teams"]:
             team = box_score["teams"][team_id]
             for player_id in team["players"]:
@@ -75,7 +92,7 @@ def _preprocess_box_scores(box_scores):
                                 'goals': stats[stat_type]['goals'],
                                 'assists': stats[stat_type]['assists'],
                                 'plus_minus': stats[stat_type]['plusMinus'],
-                                'ot_goal': ot_goal(box_score, player_id),
+                                'ot_goal': ot_goal(box_score, line_scores[i], player_id) if is_over else 0,
                                 'fights': fight(box_score, player_id)
                             }
                     elif stat_type == "goalieStats":
@@ -84,10 +101,18 @@ def _preprocess_box_scores(box_scores):
                             player["person"]["lastName"] == 'Bobrovski'
                         if player["person"]["lastName"] in active_players:
                             out[player["person"]["lastName"]] = {
-                                    'wins': win(box_score, player_id),
-                                    'losses': loss(box_score, player_id),
-                                    'shutouts': shutout(box_score, player_id),
+                                    'wins': win(box_score, player_id) if is_over else 0,
+                                    'losses': loss(box_score, player_id) if is_over else 0,
+                                    'shutouts': 1 if is_over and stats[stat_type]['shots'] == stats[stat_type]['saves'] else 0,
                                     'saves': stats[stat_type]['saves'],
                                     'goals_against': stats[stat_type]['shots'] - stats[stat_type]['saves']
                                 }
     return out
+
+
+def _ended(ls):
+    # is the game over?
+    if 'currentPeriodTimeReamining' in ls:
+        return (ls['currentPeriodTimeRemaining'] == "Final")
+    else:
+        return False

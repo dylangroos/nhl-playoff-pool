@@ -1,0 +1,6 @@
+GET https://statsapi.web.nhl.com/api/v1/game/ID/feed/live/diffPatch?startTimecode=yyyymmdd_hhmmss
+Returns updates (like new play events, updated stats for boxscore, etc.) for the specified game ID
+since the given startTimecode. If the startTimecode param is missing, returns an empty array.
+
+^^ use this instead of the current setup
+
