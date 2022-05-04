@@ -1,0 +1,6 @@
+token.json
+*.pyc
+venv/
+*.pyc
+*~
+*.swp
