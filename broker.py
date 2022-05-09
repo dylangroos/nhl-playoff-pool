@@ -1,9 +1,7 @@
+import time, os, pickle
+from datetime import date, datetime
 from gsheet import get_nightly_baseline, set_update
 from meta import get_active_stats, generate_updates
-import time
-import pickle
-import os
-from datetime import date, datetime
 
 def broker():
     # todays path
@@ -11,8 +9,9 @@ def broker():
     print('getting nightly baseline...')
     if os.path.isfile(todays_path):
         # load it
+        print('loading baseline....')
         with open(todays_path, 'rb') as f: 
-             baseline = pickle.load(f)
+            baseline = pickle.load(f)
     else:
         # generate it
         baseline = get_nightly_baseline()
@@ -29,12 +28,6 @@ def broker():
             print('no stat changes!')
         print("sleeping for 1 min...")
         time.sleep(60)
-
-
-# do the boxscore from any date
-def reconcile(date):
-    pass 
-
 
 if __name__ == "__main__":
     broker()

@@ -7,16 +7,7 @@ def generate_updates(baseline, active):
     updates = {}
     for player_type in baseline:
         for i, player in enumerate(baseline[player_type]):
-            if player['name'] == 'Vasilevsky':
-                player['name'] = 'Vasilevskiy'
-            if player['name'] == 'Bobrovski':
-                player['name'] = 'Bobrovsky'
-            if player['name'] == 'Brad':
-                player['name'] = 'Marchand'
-            if player['name'] == 'Mackinnon':
-                player['name'] = 'MacKinnon' 
-            if player['name'] == 'Nichsukin':
-                player['name'] = 'Nichushkin'
+        
             if player['name'] in active:
                 if player_type in ['forwards', 'defense']:
                     update = [
@@ -87,6 +78,12 @@ def _preprocess_box_scores(scores):
                     if stat_type == "skaterStats":
                         if player["person"]["lastName"] == 'Marchand':
                             player["person"]["lastName"] = 'Brad'
+                        if player["person"]["lastName"] == 'MacKinnon':
+                            player["person"]["lastName"] = 'Mackinnon'
+                        if player["person"]["lastName"] == 'Nichushkin':
+                            player["person"]["lastName"] = 'Nichsukin'
+                        if player["person"]["lastName"] == 'Eriksson Ek':
+                            player["person"]["lastName"] = 'Ek'
                         if player["person"]["lastName"] in active_players:
                             out[player["person"]["lastName"]] = {
                                 'goals': stats[stat_type]['goals'],
@@ -98,7 +95,9 @@ def _preprocess_box_scores(scores):
                     elif stat_type == "goalieStats":
                         # set goalie stats
                         if player["person"]["lastName"] == 'Bobrovsky':
-                            player["person"]["lastName"] == 'Bobrovski'
+                            player["person"]["lastName"] = 'Bobrovski'
+                        if player["person"]["lastName"] == 'Vasilevsky':
+                            player["person"]["lastName"] = 'Vasilevskiy'
                         if player["person"]["lastName"] in active_players:
                             out[player["person"]["lastName"]] = {
                                     'wins': win(box_score, player_id) if is_over else 0,
