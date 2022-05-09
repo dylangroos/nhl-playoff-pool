@@ -1,6 +1,8 @@
 from gsheet import range_mappings, set_update
 from api import get_json
 
+
+# TODO: this is ugly
 def reconcile():
     # get the box scores
     # get the playoff stats from those box scores per player ID
