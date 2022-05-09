@@ -2,15 +2,17 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from .constants import SCOPE, SHEET_ID, FORWARD_RANGES, DEFENSE_RANGES, GOALIE_RANGES
-
+import time
 
 def set_update(updates):
-    for range in updates:
+    for i, range in enumerate(updates):
         print(f'UPDATING States at {range}')
+        print(updates[range])
         get_sheet().values().update(spreadsheetId=SHEET_ID, 
                                     range=range, valueInputOption='RAW', 
                                     body={'values': [updates[range]]}).execute()
-
+        if i % 20 == 0:
+            time.sleep(10)
 
 # TODO: the path of the token has to be reac
 def get_sheet():
@@ -27,6 +29,20 @@ def get_players():
     return  [name[0].split('(')[0].split(' ')[1].strip() for name in get(FORWARD_RANGES['names'])] + \
     [name[0].split('(')[0].split(' ')[1].strip() for name in get(DEFENSE_RANGES['names'])] + \
     [name[0].split('(')[0].split(' ')[1].strip() for name in get(GOALIE_RANGES['names'])]
+
+
+def range_mappings():
+    out = {}
+    [out.update({
+        name[0].split('(')[0].strip() : f'Home Page Test!B{i+14}:E{i+14}'
+    }) for i, name in enumerate(get(FORWARD_RANGES["names"]))]
+    [out.update({
+        name[0].split('(')[0].strip() : f'Home Page Test!I{i+14}:L{i+14}'
+    }) for i, name in enumerate(get(DEFENSE_RANGES["names"]))]
+    [out.update({
+        name[0].split('(')[0].strip() : f'Home Page Test!P{i+14}:T{i+14}'
+    }) for i, name in enumerate(get(GOALIE_RANGES["names"]))]
+    return out
 
 def get_nightly_baseline():
     return {
