@@ -7,7 +7,19 @@ def generate_updates(baseline, active):
     updates = {}
     for player_type in baseline:
         for i, player in enumerate(baseline[player_type]):
-        
+            if player["name"] == 'Bobrovski':
+                    player["name"] = 'Bobrovsky'
+            if player["name"] == 'Vasilevsky':
+                player["name"] = 'Vasilevskiy'
+                print('Vasi')
+            if player["name"] == 'Brad':
+                player["name"] = 'Marchand'
+            if player["name"] == 'Mackinnon':
+                player["name"] = 'MacKinnon'
+            if player["name"] == 'Nichsukin':
+                player["name"] = 'Nichushkin'
+            if player["name"] == 'Ek':
+                player["name"] = 'Eriksson Ek'
             if player['name'] in active:
                 if player_type in ['forwards', 'defense']:
                     update = [
@@ -94,10 +106,6 @@ def _preprocess_box_scores(scores):
                             }
                     elif stat_type == "goalieStats":
                         # set goalie stats
-                        if player["person"]["lastName"] == 'Bobrovsky':
-                            player["person"]["lastName"] = 'Bobrovski'
-                        if player["person"]["lastName"] == 'Vasilevsky':
-                            player["person"]["lastName"] = 'Vasilevskiy'
                         if player["person"]["lastName"] in active_players:
                             out[player["person"]["lastName"]] = {
                                     'wins': win(box_score, player_id) if is_over else 0,
