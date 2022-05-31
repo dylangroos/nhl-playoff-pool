@@ -7,3 +7,8 @@ https://docs.google.com/spreadsheets/d/1WuK3vSut4oyWxDPYN0f4Lig9xkU-sOLa7c4WHfkI
 
 # Explanation
 `broker.py` pings the NHL endpoints and updates the google sheet in real time.  `reconcile.py` accounts runs the morning after all games have completed and corrects for any inconcistencies in micro stat calculations. The project can be configured to execute on ECS Spot Instances (for price)
+
+# TO DO
+*Swap to an event based live tracking model rather than parsing the full boxscores each time.
+*Query google sheet using [ROAPI](https://roapi.github.io/docs/index.html)
+*Deploy on GCP App Engine
