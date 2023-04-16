@@ -8,7 +8,7 @@ from googleapiclient.errors import HttpError
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
-SAMPLE_SPREADSHEET_ID = '18Ln_q5fxjasOFD-_aORYFK6HynpreB_ivaG0W63JDK8'
+SAMPLE_SPREADSHEET_ID = '1A5m4YGWFLDGazuU2P3dHmX7hS6t3cGPzMlza3MqudJA'
 
 SAMPLE_RANGE_NAME = 'Home Page!A14:70'
 
