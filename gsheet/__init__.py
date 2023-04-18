@@ -45,6 +45,7 @@ def range_mappings():
     return out
 
 def get_nightly_baseline():
+    print(get(FORWARD_RANGES["all"]))
     return {
                 "forwards":[{
                             "name": entry[0].split('(')[0].split(' ')[1].strip(),

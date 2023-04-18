@@ -21,9 +21,10 @@ def broker():
     while True:
         print('fetching active stats from nhl api...')
         active = get_active_stats()
+        print(active)
         updates = generate_updates(baseline, active)
         if updates:
-            set_update(updates)
+            set_update(updates) 
         else:
             print('no stat changes!')
         print("sleeping for 1 min...")
