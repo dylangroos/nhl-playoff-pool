@@ -7,19 +7,6 @@ def generate_updates(baseline, active):
     updates = {}
     for player_type in baseline:
         for i, player in enumerate(baseline[player_type]):
-            if player["name"] == 'Bobrovski':
-                    player["name"] = 'Bobrovsky'
-            if player["name"] == 'Vasilevsky':
-                player["name"] = 'Vasilevskiy'
-                print('Vasi')
-            if player["name"] == 'Brad':
-                player["name"] = 'Marchand'
-            if player["name"] == 'Mackinnon':
-                player["name"] = 'MacKinnon'
-            if player["name"] == 'Nichsukin':
-                player["name"] = 'Nichushkin'
-            if player["name"] == 'Ek':
-                player["name"] = 'Eriksson Ek'
             if player['name'] in active:
                 if player_type in ['forwards', 'defense']:
                     update = [
@@ -37,20 +24,23 @@ def generate_updates(baseline, active):
                         int(player['fights'])
                     ]
                 elif player_type == 'goalies':
-                    update = [
-                        active[player['name']]['wins'] + int(player['wins']),
-                        active[player['name']]['losses'] + int(player['losses']),
-                        active[player['name']]['shutouts'] + int(player['shutouts']),
-                        active[player['name']]['saves'] + int(player['saves']),
-                        active[player['name']]['goals_against'] + int(player['goals_against'])
-                    ]
-                    base = [
-                        int(player['wins']),
-                        int(player['losses']),
-                        int(player['shutouts']),
-                        int(player['saves']),
-                        int(player['goals_against'])
-                    ]
+                    try:
+                        update = [
+                            active[player['name']]['wins'] + int(player['wins']),
+                            active[player['name']]['losses'] + int(player['losses']),
+                            active[player['name']]['shutouts'] + int(player['shutouts']),
+                            active[player['name']]['saves'] + int(player['saves']),
+                            active[player['name']]['goals_against'] + int(player['goals_against'])
+                        ]
+                        base = [
+                            int(player['wins']),
+                            int(player['losses']),
+                            int(player['shutouts']),
+                            int(player['saves']),
+                            int(player['goals_against'])
+                        ]
+                    except KeyError:
+                        print('Duplicate last name in active')
                 if any([a_i - b_i for a_i, b_i in zip(update, base)]):
 
                     if player_type == 'forwards':
@@ -85,19 +75,16 @@ def _preprocess_box_scores(scores):
             for player_id in team["players"]:
                 player = team["players"][player_id]
                 stats = player["stats"]
+                name = player["person"]["firstName"] + ' ' + player["person"]["lastName"] 
                 for stat_type in stats:
                     # set player stats
                     if stat_type == "skaterStats":
-                        if player["person"]["lastName"] == 'Marchand':
-                            player["person"]["lastName"] = 'Brad'
                         if player["person"]["lastName"] == 'MacKinnon':
                             player["person"]["lastName"] = 'Mackinnon'
                         if player["person"]["lastName"] == 'Nichushkin':
                             player["person"]["lastName"] = 'Nichsukin'
-                        if player["person"]["lastName"] == 'Eriksson Ek':
-                            player["person"]["lastName"] = 'Ek'
-                        if player["person"]["lastName"] in active_players:
-                            out[player["person"]["lastName"]] = {
+                        if name in active_players:
+                            out[name] = {
                                 'goals': stats[stat_type]['goals'],
                                 'assists': stats[stat_type]['assists'],
                                 'plus_minus': stats[stat_type]['plusMinus'],
@@ -106,8 +93,10 @@ def _preprocess_box_scores(scores):
                             }
                     elif stat_type == "goalieStats":
                         # set goalie stats
-                        if player["person"]["lastName"] in active_players:
-                            out[player["person"]["lastName"]] = {
+                        if player["person"]["lastName"] == 'Vasilevskiy':
+                            player["person"]["lastName"] = 'Vasilevsky'
+                        if name in active_players:
+                            out[name] = {
                                     'wins': win(box_score, player_id) if is_over else 0,
                                     'losses': loss(box_score, player_id) if is_over else 0,
                                     'shutouts': 1 if is_over and stats[stat_type]['shots'] == stats[stat_type]['saves'] else 0,

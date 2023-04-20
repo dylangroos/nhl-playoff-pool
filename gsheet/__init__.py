@@ -26,9 +26,9 @@ def get(RANGE):
 
 
 def get_players():
-    return  [name[0].split('(')[0].split(' ')[1].strip() for name in get(FORWARD_RANGES['names'])] + \
-    [name[0].split('(')[0].split(' ')[1].strip() for name in get(DEFENSE_RANGES['names'])] + \
-    [name[0].split('(')[0].split(' ')[1].strip() for name in get(GOALIE_RANGES['names'])]
+    return  [name[0].split('(')[0].strip() for name in get(FORWARD_RANGES['names'])] + \
+    [name[0].split('(')[0].strip() for name in get(DEFENSE_RANGES['names'])] + \
+    [name[0].split('(')[0].strip() for name in get(GOALIE_RANGES['names'])]
 
 
 def range_mappings():
@@ -48,7 +48,7 @@ def get_nightly_baseline():
     print(get(FORWARD_RANGES["all"]))
     return {
                 "forwards":[{
-                            "name": entry[0].split('(')[0].split(' ')[1].strip(),
+                            "name": entry[0].split('(')[0].strip(),
                             "goals": entry[1],
                             "assists": entry[2],
                             "plus_minus": entry[3],
@@ -57,7 +57,7 @@ def get_nightly_baseline():
                         }
                         for entry in get(FORWARD_RANGES["all"])],
                 "defense":[{
-                            "name": entry[0].split('(')[0].split(' ')[1].strip(),
+                            "name": entry[0].split('(')[0].strip(),
                             "goals": entry[1],
                             "assists": entry[2],
                             "plus_minus": entry[3],
@@ -66,7 +66,7 @@ def get_nightly_baseline():
                         }
                         for entry in get(DEFENSE_RANGES["all"])],
                 "goalies":[{
-                            "name":entry[0].split('(')[0].split(' ')[1].strip(),
+                            "name":entry[0].split('(')[0].strip(),
                             "wins": entry[1],
                             "losses": entry[2],
                             "shutouts": entry[3],

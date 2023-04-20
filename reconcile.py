@@ -17,8 +17,6 @@ def reconcile():
             entry["name"] = 'Nathan Mackinnon'
         if entry["name"] in ['Valeri Nichushkin']:
             entry["name"] = 'Valeri Nichsukin'
-        if entry["name"] in ["Brad Marchand"]:
-            entry["name"] = "Rat Brad"
         if entry["name"] in name_to_range:
             stats = get_json(f"https://statsapi.web.nhl.com/api/v1/people/{entry['id']}/stats?stats=statsSingleSeasonPlayoffs&season=20222023")['stats'][0]['splits'][0]['stat']
             print(entry["name"])
