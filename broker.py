@@ -21,6 +21,7 @@ def broker():
     while True:
         print('fetching active stats from nhl api...')
         active = get_active_stats()
+        print(baseline)
         print(active)
         updates = generate_updates(baseline, active)
         if updates:

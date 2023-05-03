@@ -12,7 +12,8 @@ def set_update(updates):
                                     range=range, valueInputOption='RAW', 
                                     body={'values': [updates[range]]}).execute()
         if i % 20 == 0:
-            time.sleep(10)
+            print('sleeping...')
+            time.sleep(60)
 
 # TODO: the path of the token has to be reac
 def get_sheet():
@@ -45,7 +46,6 @@ def range_mappings():
     return out
 
 def get_nightly_baseline():
-    print(get(FORWARD_RANGES["all"]))
     return {
                 "forwards":[{
                             "name": entry[0].split('(')[0].strip(),

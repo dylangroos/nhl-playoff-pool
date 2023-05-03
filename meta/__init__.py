@@ -42,7 +42,7 @@ def generate_updates(baseline, active):
                     except KeyError:
                         print('Duplicate last name in active')
                 if any([a_i - b_i for a_i, b_i in zip(update, base)]):
-
+                    print(player['name'])
                     if player_type == 'forwards':
                         print(f'        G|A|+-|OT|F')
                         updates[f'Home Page Test!B{i+14}:F{i+14}'] = update
