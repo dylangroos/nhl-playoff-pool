@@ -1,30 +1,37 @@
 SCOPE = ['https://www.googleapis.com/auth/spreadsheets']
 
-SHEET_ID = '1A5m4YGWFLDGazuU2P3dHmX7hS6t3cGPzMlza3MqudJA'
+
+STARTING_ROW = 22
+
+SHEET_NAME = "Copy of Home Page Test"
+
+
+SHEET_ID = '1zSw0K2QcwHiCZ0nf8c2XeCr5gEnjkhcNToZGVmBsY7g'
 FORWARD_RANGES = {
-    "names": "Home Page Test!A14:A150",
-    "goals": "Home Page Test!B14:B150",
-    "assists": "Home Page Test!C14:C150",
-    "plus_minus": "Home Page Test!D14:D150",
-    "ot_goals": "Home Page Test!E14:E150",
-    "fights": "Home Page Test!F14:F150",
-    "all": "Home Page Test!A14:F150"
+    "names": f"{SHEET_NAME}!A{STARTING_ROW}:A121",
+    "goals": f"{SHEET_NAME}!B{STARTING_ROW}:B121",
+    "assists": f"{SHEET_NAME}!C{STARTING_ROW}:C121",
+    "plus_minus": f"{SHEET_NAME}!D{STARTING_ROW}:D121",
+    "ot_goals": f"{SHEET_NAME}!E{STARTING_ROW}:E121",
+    "fights": f"{SHEET_NAME}!F{STARTING_ROW}:F121",
+    "all": f"{SHEET_NAME}!A{STARTING_ROW}:F121"
 }
 DEFENSE_RANGES = {
-    "names": "Home Page Test!H14:H100",
-    "goals": "Home Page Test!I14:I100",
-    "assists": "Home Page Test!J14:J100",
-    "plus_minus": "Home Page Test!K14:K100",
-    "ot_goals": "Home Page Test!L14:L100",
-    "fights": "Home Page Test!M14:M100",
-    "all": "Home Page Test!H14:M100"
+    "names": f"{SHEET_NAME}!H{STARTING_ROW}:H76",
+    "goals": f"{SHEET_NAME}!I{STARTING_ROW}:I76",
+    "assists": f"{SHEET_NAME}!J{STARTING_ROW}:J76",
+    "plus_minus": f"{SHEET_NAME}!K{STARTING_ROW}:K76",
+    "ot_goals": f"{SHEET_NAME}!L{STARTING_ROW}:L76",
+    "fights": f"{SHEET_NAME}!M{STARTING_ROW}:M76",
+    "all": f"{SHEET_NAME}!H{STARTING_ROW}:M76"
 }
 GOALIE_RANGES = {
-    "names": "Home Page Test!O14:O40",
-    "wins": "Home Page Test!P14:P40",
-    "losses": "Home Page Test!Q14:Q40",
-    "shutouts": "Home Page Test!R14:R40",
-    "saves": "Home Page Test!S14:S40",
-    "goals_against": "Home Page Test!T14:T40",
-    "all": "Home Page Test!O14:T40"
+    "names": f"{SHEET_NAME}!O{STARTING_ROW}:O43",
+    "wins": f"{SHEET_NAME}!P{STARTING_ROW}:P43",
+    "losses": f"{SHEET_NAME}!Q{STARTING_ROW}:Q43",
+    "shutouts": f"{SHEET_NAME}!R{STARTING_ROW}:R43",
+    "saves": f"{SHEET_NAME}!S{STARTING_ROW}:S43",
+    "goals_against": f"{SHEET_NAME}!T{STARTING_ROW}:T43",
+    "assists": f"{SHEET_NAME}!U{STARTING_ROW}:U43",
+    "all": f"{SHEET_NAME}!O{STARTING_ROW}:U43"
 }
